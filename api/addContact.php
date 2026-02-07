@@ -19,6 +19,7 @@
 	} 
 	else
 	{
+		//check if userId exists
 		$check = $conn->prepare("SELECT ID FROM Users WHERE ID = ?");
 		$check->bind_param("i", $userId);
 		$check->execute();
@@ -34,12 +35,31 @@
 
 		$check->close();
 
+		//check if contact is duplicate
+		$dup = $conn->prepare(
+		"SELECT ID FROM Contacts WHERE UserID = ? AND Email = ?"
+		);
+		$dup->bind_param("is", $userId, $email);
+		$dup->execute();
+		$dup->store_result();
+
+		if ($dup->num_rows > 0)
+		{
+			$dup->close();
+			$conn->close();
+			returnWithError("Contact already exists");
+			return;
+		}
+
+		$dup->close();
+
+		//add contact
 		$stmt = $conn->prepare("INSERT into Contacts (FirstName, LastName, Phone, Email, UserID) VALUES(?,?,?,?,?)");
 		$stmt->bind_param("ssssi", $firstName, $lastName, $phone, $email, $userId);
 		$stmt->execute();
 		$stmt->close();
 		$conn->close();
-		returnWithError("User added successfully");
+		returnWithError("Contact added successfully");
 	}
 
 	function getRequestInfo()
