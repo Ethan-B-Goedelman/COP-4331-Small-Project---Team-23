@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - My Pocket Contacts</title>
+<link rel="stylesheet" href="css/styles.css">
+<script defer src="js/api.js"></script>
+<script defer src="js/dashboard.js"></script>
+</head>
+
+<body>
+<header class="main-header">
+  <h1>📘 My Contacts</h1>
+  <button id="logoutBtn" class="btn secondary small">Logout</button>
+</header>
+
+<main class="dashboard-container">
+
+  <section class="search-section card">
+    <label for="searchInput">Search Contacts</label>
+    <input type="text" id="searchInput" placeholder="Search by name..." aria-label="Search contacts">
+    <button id="searchBtn" class="btn primary">Search</button>
+  </section>
+
+  <section class="results-section card">
+    <h2>Results</h2>
+    <div id="contactsList"></div>
+  </section>
+
+</main>
+</body>
+</html>
