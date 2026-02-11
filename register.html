@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Register - My Pocket Contacts</title>
+<link rel="stylesheet" href="css/styles.css">
+<script defer src="js/auth.js"></script>
+</head>
+
+<body>
+<header class="main-header">
+  <h1>Create Account</h1>
+</header>
+
+<main class="center-container">
+  <section class="card">
+    <form id="registerForm" novalidate>
+
+      <label for="regName">Full Name</label>
+      <input type="text" id="regName" required>
+
+      <label for="regEmail">Email</label>
+      <input type="email" id="regEmail" required>
+
+      <label for="regPassword">Password</label>
+      <input type="password" id="regPassword" required>
+
+      <button type="submit" class="btn primary">Register</button>
+
+      <p id="registerError" class="error-message" aria-live="polite"></p>
+
+    </form>
+  </section>
+</main>
+</body>
+</html>
