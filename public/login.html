@@ -1,0 +1,26 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Team23 Login</title>
+</head>
+<body>
+  <h1>Login</h1>
+
+  <label>Email</label><br />
+  <input id="loginEmail" type="text" /><br /><br />
+
+  <label>Password</label><br />
+  <input id="loginPassword" type="password" /><br /><br />
+
+  <button id="loginBtn">Login</button>
+  <p id="loginMsg" style="color:red;"></p>
+
+  <p><a href="/register.html">Create account</a></p>
+
+  <script type="module">
+    import { doLogin } from "./js/auth.js";
+    document.getElementById("loginBtn").addEventListener("click", doLogin);
+  </script>
+</body>
+</html>
