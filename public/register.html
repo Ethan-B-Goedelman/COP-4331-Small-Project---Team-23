@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Register - My Pocket Contacts</title>
 <link rel="stylesheet" href="css/styles.css">
-<script defer src="js/auth.js"></script>
+<script type="module" src="js/auth.js"></script>
 </head>
 
 <body>
@@ -24,7 +24,10 @@
       <input type="email" id="regEmail" required>
 
       <label for="regPassword">Password</label>
-      <input type="password" id="regPassword" required>
+      <input type="password" id="regPassword" required minlength="8">
+
+      <label for="regConfirmPassword">Confirm Password</label>
+      <input type="password" id="regConfirmPassword" required minlength ="8">
 
       <button type="submit" class="btn primary">Register</button>
 

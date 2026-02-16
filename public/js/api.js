@@ -1,6 +1,6 @@
-const API_BASE = "https://yourdomain.com/api";
+const API_BASE = "http://167.172.209.93/api";
 
-async function apiRequest(endpoint, method, body = null) {
+export async function apiRequest(endpoint, method, body = null) {
     const options = {
         method: method,
         headers: {

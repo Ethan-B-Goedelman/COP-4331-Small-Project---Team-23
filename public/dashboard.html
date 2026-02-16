@@ -5,8 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Dashboard - My Pocket Contacts</title>
 <link rel="stylesheet" href="css/styles.css">
-<script defer src="js/api.js"></script>
-<script defer src="js/dashboard.js"></script>
+<script type="module" src="js/dashboard.js"></script>
 </head>
 
 <body>
@@ -22,7 +21,24 @@
     <input type="text" id="searchInput" placeholder="Search by name..." aria-label="Search contacts">
     <button id="searchBtn" class="btn primary">Search</button>
   </section>
-
+  
+  <section class="add-section card">
+    <h2>Add Contact</h2>
+  
+    <label for="addName">Name</label>
+    <input type="text" id="addName" placeholder="Full name">
+  
+    <label for="addEmail">Email</label>
+    <input type="email" id="addEmail" placeholder="name@email.com">
+  
+    <label for="addPhone">Phone</label>
+    <input type="text" id="addPhone" placeholder="(555) 555-5555">
+  
+    <button id="addBtn" class="btn primary">Add</button>
+  
+    <p id="addError" class="error-message" aria-live="polite"></p>
+  
+  </section>
   <section class="results-section card">
     <h2>Results</h2>
     <div id="contactsList"></div>
