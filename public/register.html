@@ -1,0 +1,32 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Team23 Register</title>
+</head>
+<body>
+  <h1>Register</h1>
+
+  <label>Full Name</label><br />
+  <input id="regFullName" type="text" /><br /><br />
+
+  <label>Email</label><br />
+  <input id="regEmail" type="text" /><br /><br />
+
+  <label>Password</label><br />
+  <input id="regPassword" type="password" /><br /><br />
+
+  <label>Confirm Password</label><br />
+  <input id="regConfirm" type="password" /><br /><br />
+
+  <button id="regBtn">Create Account</button>
+  <p id="regMsg" style="color:red;"></p>
+
+  <p><a href="/login.html">Back to login</a></p>
+
+  <script type="module">
+    import { doRegister } from "./js/auth.js";
+    document.getElementById("regBtn").addEventListener("click", doRegister);
+  </script>
+</body>
+</html>
