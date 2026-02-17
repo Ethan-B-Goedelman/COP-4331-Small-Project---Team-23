@@ -1,0 +1,19 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Dashboard</title>
+</head>
+<body>
+  <h1>Dashboard</h1>
+  <p>If you got here after login, AJAX worked.</p>
+
+  <p><b>User:</b> <span id="who"></span></p>
+
+  <script>
+    const first = localStorage.getItem("firstName") || "";
+    const last  = localStorage.getItem("lastName") || "";
+    document.getElementById("who").textContent = (first + " " + last).trim();
+  </script>
+</body>
+</html>
