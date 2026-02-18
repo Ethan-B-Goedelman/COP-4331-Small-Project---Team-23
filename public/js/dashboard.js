@@ -30,15 +30,21 @@ document.addEventListener("DOMContentLoaded", () => {
         const errEl = document.getElementById("addError");
         errEl.textContent = "";
     
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+        const phoneDigits = phone.replace(/\D/g, ""); // keep only numbers
+      
         if (!fullName) {
           errEl.textContent = "Please enter a name.";
           return;
         }
-        if (!email) {
-          errEl.textContent = "Please enter an email.";
+        if (!emailOk) {
+          errEl.textContent = "Please enter a valid email.";
           return;
         }
-    
+        if (phone && phoneDigits.length < 7) {
+          errEl.textContent = "Please enter a valid phone number.";
+          return;
+        }
         // Split full name into first/last for backend
         const parts = fullName.split(/\s+/);
         const firstName = parts[0] || "";
@@ -46,7 +52,7 @@ document.addEventListener("DOMContentLoaded", () => {
         const data = await apiRequest("/addContact.php", "POST", {
           firstName,
           lastName,
-          phone,
+          phone: phoneDigits,
           email,
           userId: Number(userId)
         });
@@ -63,6 +69,68 @@ document.addEventListener("DOMContentLoaded", () => {
           errEl.textContent = data.error || "Failed to add contact.";
         }
       }
+      async function deleteContact(contactId) {
+        const ok = confirm("Delete this contact?");
+        if (!ok) return;
+        const userId = Number(localStorage.getItem("userId"));
+        const data = await apiRequest("/DeleteContact.php", "POST", {
+          userId,
+          contactId: Number(contactId)
+        });
+        // backend uses "error" field for success message too
+        if (data.error === "Contact deleted successfully") {
+          searchContacts(); // refresh results
+        } else {
+          alert(data.error || "Delete failed.");
+        }
+      }
+      async function editContact(contact) {
+        const userId = Number(localStorage.getItem("userId"));
+        const contactId = Number(contact.ID);
+        const firstName = prompt("First name:", contact.FirstName || "");
+        if (firstName === null) return;
+      
+        const lastName = prompt("Last name:", contact.LastName || "");
+        if (lastName === null) return;
+      
+        const email = prompt("Email:", contact.Email || "");
+        if (email === null) return;
+      
+        const phone = prompt("Phone:", contact.Phone || "");
+        if (phone === null) return;
+
+        const firstT = firstName.trim();
+        const lastT  = lastName.trim();
+        const emailT = email.trim();
+        const phoneT = phone.trim();
+        if (!firstT || !lastT) {
+            alert("First and last name are required.");
+            return;
+        }
+        const emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(emailT);
+        if (!emailOk) {
+            alert("Please enter a valid email.");
+            return;
+        }
+        const phoneDigits = phoneT.replace(/\D/g, "");
+        if (phoneT && phoneDigits.length < 7) {
+            alert("Please enter a valid phone number.");
+            return;
+        }
+        const data = await apiRequest("/EditContact.php", "POST", {
+            userId,
+            contactId,
+            firstName: firstT,
+            lastName: lastT,
+            email: emailT,
+            phone: phoneDigits
+          });
+        if (data.error === "Contact updated successfully") {
+          searchContacts();
+        } else {
+          alert(data.error || "Update failed.");
+        }
+      }
 
       function displayContacts(results) {
         const list = document.getElementById("contactsList");
@@ -73,13 +141,30 @@ document.addEventListener("DOMContentLoaded", () => {
           return;
         }
       
-        results.forEach((name) => {
+        results.forEach((c) => {
+          const id    = c.ID;
+          const first = (c.FirstName || "").trim();
+          const last  = (c.LastName || "").trim();
+          const email = (c.Email || "").trim();
+          const phone = (c.Phone || "").trim();
+      
           const div = document.createElement("div");
           div.classList.add("contact-card");
-          div.innerHTML = `<strong>${String(name).trim()}</strong>`;
+      
+          div.innerHTML = `
+            <strong>${first} ${last}</strong><br>
+            ${email ? email + "<br>" : ""}
+            ${phone ? phone + "<br>" : ""}
+            <button class="btn secondary small edit-btn" data-id="${c.ID}">Edit</button>
+            <button class="btn secondary small delete-btn">Delete</button>
+          `;
+      
+          div.querySelector(".delete-btn").addEventListener("click", () => deleteContact(id));
+      
           list.appendChild(div);
+          div.querySelector(".edit-btn").addEventListener("click", () => editContact(c));
         });
-      } 
-    const addBtn = document.getElementById("addBtn");
-    if (addBtn) addBtn.addEventListener("click", addContact);
+      }
+      const addBtn = document.getElementById("addBtn");
+  if (addBtn) addBtn.addEventListener("click", addContact);
 });
