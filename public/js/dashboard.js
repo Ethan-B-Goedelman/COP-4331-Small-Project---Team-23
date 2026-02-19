@@ -39,7 +39,14 @@ document.addEventListener("DOMContentLoaded", () => {
         if (modalError) modalError.textContent = "";
     }
     // searches instantly as user types
-    searchInput.addEventListener("input", searchContacts); 
+    let searchTimer = null;
+
+    searchInput.addEventListener("input", () => {
+      clearTimeout(searchTimer);
+      searchTimer = setTimeout(() => {
+        searchContacts();
+    }, 250);
+    });
 
     // opens popup and sets the title
     openAddBtn.addEventListener("click", () => {
