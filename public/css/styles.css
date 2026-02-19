@@ -1,67 +1,331 @@
-body {
-  font-family: Arial, sans-serif;
-  background-color: #F5F7FA;
-  margin: 0;
-  color: #0B3C5D;
+
+:root {
+  /* Font */
+  --hand-font: "Schoolbell", cursive;
 }
 
-.main-header {
-  background-color: #0B3C5D;
-  color: white;
-  padding: 1rem;
-  text-align: center;
+body.corkboard-page {
+  /* background */
+  background-image: url("../assets/corkboard.jpeg"); 
+  background-size: cover;
+  background-attachment: fixed;
+  background-position: center;
+  font-family: var(--hand-font);
+  color: #222;
+  font-size: 1.2rem;
 }
 
-.center-container {
-  display: flex;
-  justify-content: center;
-  margin-top: 4rem;
+/* Everything uses font */
+h1, h2, h3, .tape-header, .note-title, .modal-title, input, .form-control, .btn {
+  font-family: var(--hand-font) !important;
 }
 
-.card {
-  background: white;
-  padding: 2rem;
-  border-radius: 12px;
-  width: 350px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+/* Bold headers */
+h1, h2, h3, .tape-header {
+  font-weight: bold; 
 }
 
-input {
-  width: 100%;
-  padding: 0.6rem;
-  margin-bottom: 1rem;
-  border: 2px solid #ccc;
-  border-radius: 6px;
+/* The Login/Register "Main" Sticky Note */
+.sticky-note {
+  background: #f7e58b; 
+  border-radius: 2px;
+  position: relative;
+  /*  make it look "placed" */
+  transform: rotate(-1deg);
+  /* Texture: slight grain to look like paper */
+  background-image: linear-gradient(rgba(0,0,0,0.02), rgba(0,0,0,0));
 }
 
-input:focus {
-  outline: 3px solid #F4B400;
+/* The pin visual at the top of the login note */
+.pin {
+  position: absolute;
+  top: -15px; 
+  left: 50%;
+  transform: translateX(-50%);
+  width: 20px; 
+  height: 20px;
+  background: radial-gradient(circle at 30% 30%, #f0f0f0, #999);
+  border-radius: 50%;
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.3);
+  z-index: 10;
 }
 
-.btn {
-  padding: 0.7rem;
-  border: none;
-  border-radius: 6px;
-  cursor: pointer;
+/* Dashboard:  Masking Tape Header*/
+.tape-header {
+  /* Translucency */
+  background-color: rgba(255, 253, 235, 0.85); 
+  /* Text Styling */
+  color: #333; 
+  font-family: var(--hand-font);
+  font-size: 3rem;
   font-weight: bold;
+  padding: 0.5rem 5rem; 
+  
+  /* The Tear Effect: Much more detailed polygon for jagged edges */
+  clip-path: polygon(
+    0% 5%, 2% 0%, 5% 5%, 10% 0%, 15% 5%, 20% 0%, 25% 5%, 30% 0%, 35% 5%, 40% 0%, 45% 5%, 50% 0%, 55% 5%, 60% 0%, 65% 5%, 70% 0%, 75% 5%, 80% 0%, 85% 5%, 90% 0%, 95% 5%, 98% 0%, 100% 5%,
+    100% 95%, 98% 100%, 95% 95%, 90% 100%, 85% 95%, 80% 100%, 75% 95%, 70% 100%, 65% 95%, 60% 100%, 55% 95%, 50% 100%, 45% 95%, 40% 100%, 35% 95%, 30% 100%, 25% 95%, 20% 100%, 15% 95%, 10% 100%, 5% 95%, 2% 100%, 0% 95%
+  );
+
+  /* Texture: Adds noise */
+  background-image: linear-gradient(45deg, rgba(0,0,0,0.02) 25%, transparent 25%, transparent 75%, rgba(0,0,0,0.02) 75%);
+  background-size: 4px 4px;
+  
+  /* Depth */
+  filter: drop-shadow(0px 3px 2px rgba(0,0,0,0.2));
+  
+  /* Placement */
+  transform: rotate(-1.5deg);
+  border: none;
+  display: inline-block;
+  margin-right: 20px; 
 }
 
-.primary {
-  background-color: #0B3C5D;
+/*  Dashboard: The Sticky Note Cards */
+.sticky-note-card {
+  background: #fdfd96;
+  font-family: var(--hand-font);
+  transition: transform 0.2s, box-shadow 0.2s;
+  min-height: 260px; /* Ensures all notes are the same height */
+  transform: rotate(-1deg);
+  cursor: default;
+}
+
+.sticky-note-card:hover {
+  transform: scale(1.05) rotate(0deg) !important; 
+  z-index: 50;
+  box-shadow: 0 10px 20px rgba(0,0,0,0.2) !important;
+}
+
+/* The Small Pin Tack on Cards */
+.pin-tack {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 30% 30%, #eee, #888);
+  border-radius: 50%;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+}
+/*  The "Add Contact" Pink Note */
+.pink-note-btn {
+  background-color: #ff9ee3 !important; 
+  color: #222 !important;
+  border: none;
+  font-family: var(--hand-font);
+  font-weight: bold;
+  font-size: 1.5rem; 
+  line-height: 1.1; 
+  width: 140px !important;
+  height: 140px !important;
+  padding: 0 !important; 
+  
+  /* Centering Logic */
+  display: flex !important; 
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  /* Sticky Note "Physics" */
+  transform: rotate(4deg);
+  box-shadow: 4px 6px 12px rgba(0,0,0,0.3) !important; 
+  transition: all 0.2s ease-in-out;
+  border-radius: 2px; 
+}
+
+/* hover */
+.pink-note-btn:hover {
+  transform: rotate(1deg) scale(1.05); 
+  box-shadow: 8px 15px 25px rgba(0,0,0,0.35) !important;
+}
+
+/* Random Rotations for Natural Look */
+/* Rotate odd */
+.col-12:nth-child(odd) .sticky-note-card { transform: rotate(1.5deg); }
+/* Rotate even */
+.col-12:nth-child(even) .sticky-note-card { transform: rotate(-1.5deg); }
+
+/* Functional Buttons (Logout */
+#logoutBtn {
+  border-radius: 8px;
+  padding: 0.5rem 1.5rem;
+  transition: all 0.2s ease;
+  background-color: white; 
+}
+#logoutBtn:hover {
+  background-color: #dc3545; 
   color: white;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2);
 }
 
-.secondary {
-  background-color: #F4B400;
-  color: black;
+/* Professional Empty State */
+.empty-board-note {
+  background-color: rgba(255, 255, 255, 0.7); 
+  border: 1px dashed #999;
+  max-width: 500px;
+  position: relative;
+  font-family: var(--hand-font);
+  color: #555;
+  transform: rotate(-0.5deg);
+  border-radius: 4px;
 }
 
-.error-message {
-  color: #B00020;
-  min-height: 1.5rem;
+.empty-board-note h2 {
+  color: #333;
+  font-family: var(--hand-font) !important; 
+  text-decoration: underline;
 }
 
-.dashboard-container {
-  max-width: 800px;
-  margin: 2rem auto;
+/* Sticky Note Internal Layout*/
+.note-name {
+  font-size: 1.8rem; 
+  line-height: 1.2;
+  color: #222;
+  
+  padding-top: 10px; 
+}
+
+
+.note-body {
+  /* Ensures the text is easily readable */
+  color: #333;
+}
+
+.landing-note-link {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  font-family: var(--hand-font); 
+  font-size: 2.2rem;
+  font-weight: bold;
+  color: #333; 
+  text-decoration: none; 
+  
+  width: 220px;
+  height: 220px;
+  box-shadow: 5px 10px 15px rgba(0,0,0,0.2);
+  border-radius: 2px; 
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  position: relative; 
+  z-index: 1;
+}
+
+.landing-note-link:hover {
+  transform: scale(1.1) rotate(0deg) !important; 
+  box-shadow: 10px 20px 25px rgba(0,0,0,0.3);
+  z-index: 10;
+  cursor: pointer;
+  color: #000; 
+}
+
+.landing-yellow {
+  background-color: #fdfd96; 
+  transform: rotate(-6deg); 
+}
+
+.landing-pink {
+  background-color: #ff9ee3; 
+  transform: rotate(4deg);  
+}
+
+.silver-tack {
+  width: 16px;
+  height: 16px;
+  background: radial-gradient(circle at 30% 30%, #e0e0e0, #8a8a8a);
+  border-radius: 50%;
+  box-shadow: 1px 2px 4px rgba(0,0,0,0.3);
+  
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+/* =========================================
+   CINEMATIC POLISH (Animation & Lighting)
+   ========================================= */
+
+/* 1. The Vignette (Dramatic Lighting) */
+/* Creates a dark halo around the screen edges to focus attention */
+body.corkboard-page::after {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  /* Transparent center -> Darker edges */
+  background: radial-gradient(circle, transparent 40%, rgba(0,0,0,0.4) 100%);
+  pointer-events: none; /* Allows you to click buttons THROUGH the shadow */
+  z-index: 1; /* Sits on top of background but behind notes */
+}
+
+/* The "Slap" Animations */
+
+/* Yellow Note Animation */
+@keyframes slapInYellow {
+  0% { 
+      opacity: 0; 
+      transform: scale(3) rotate(20deg); /* Starts huge */
+  }
+  60% {
+      transform: scale(0.9) rotate(-10deg); 
+  }
+  100% { 
+      opacity: 1; 
+      transform: scale(1) rotate(-6deg); 
+  }
+}
+
+/* Pink Note Animation */
+@keyframes slapInPink {
+  0% { 
+    opacity: 0; 
+    transform: scale(3) rotate(-20deg); 
+  }
+  60% {
+    transform: scale(0.9) rotate(8deg); 
+  }
+  100% { 
+    opacity: 1; 
+    transform: scale(1) rotate(4deg); 
+  }
+} 
+
+/* Apply the Animations */
+.landing-yellow {
+  animation: slapInYellow 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.1s backwards;
+  transform: rotate(-6deg); 
+}
+
+.landing-pink {
+  animation: slapInPink 0.6s cubic-bezier(0.25, 1, 0.5, 1) 0.25s backwards;
+  transform: rotate(4deg);
+}
+
+@keyframes pinGlint {
+  0%, 80% { background-position: -200%; } 
+  100% { background-position: 200%; }   
+}
+
+.silver-tack {
+  width: 14px;
+  height: 14px;
+  background: radial-gradient(circle at 30% 30%, #eeeeee, #888888);
+  border-radius: 50%;
+  box-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+
+  animation: none;
+  z-index: 5;
 }

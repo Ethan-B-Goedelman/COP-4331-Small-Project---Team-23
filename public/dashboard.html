@@ -1,49 +1,85 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard - My Pocket Contacts</title>
-<link rel="stylesheet" href="css/styles.css">
-<script type="module" src="js/dashboard.js"></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - My Pocket Contacts</title>
+  
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  
+  <link href="https://fonts.googleapis.com/css2?family=Schoolbell&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="css/styles.css">
+  
+  <script type="module" src="js/dashboard.js"></script>
 </head>
 
-<body>
-<header class="main-header">
-  <h1>📘 My Contacts</h1>
-  <button id="logoutBtn" class="btn secondary small">Logout</button>
-</header>
+<body class="corkboard-page">
 
-<main class="dashboard-container">
+  <div class="container py-4">
+    
+    <div class="d-flex justify-content-start mb-3">
+      <button id="logoutBtn" class="btn btn-outline-danger fw-bold shadow-sm px-4">
+        Logout
+      </button>
+    </div>
 
-  <section class="search-section card">
-    <label for="searchInput">Search Contacts</label>
-    <input type="text" id="searchInput" placeholder="Search by name..." aria-label="Search contacts">
-    <button id="searchBtn" class="btn primary">Search</button>
-  </section>
-  
-  <section class="add-section card">
-    <h2>Add Contact</h2>
-  
-    <label for="addName">Name</label>
-    <input type="text" id="addName" placeholder="Full name">
-  
-    <label for="addEmail">Email</label>
-    <input type="email" id="addEmail" placeholder="name@email.com">
-  
-    <label for="addPhone">Phone</label>
-    <input type="text" id="addPhone" placeholder="(555) 555-5555">
-  
-    <button id="addBtn" class="btn primary">Add</button>
-  
-    <p id="addError" class="error-message" aria-live="polite"></p>
-  
-  </section>
-  <section class="results-section card">
-    <h2>Results</h2>
-    <div id="contactsList"></div>
-  </section>
+    <div class="d-flex flex-column flex-md-row align-items-center justify-content-between gap-4 mb-5">
+      
+      <input type="text" id="searchInput" class="form-control form-control-lg border-dark shadow-sm" 
+             placeholder="🔍 Search contacts..." style="max-width: 300px; font-family:var(--hand-font);">
+      
+      <div class="tape-header">My Contacts</div>
+      
+      <button id="openAddModalBtn" class="btn pink-note-btn shadow position-relative" data-bs-toggle="modal" data-bs-target="#contactModal">
+        <div class="pin-tack" style="top: 8px; box-shadow: none; border: 1px solid #999;"></div>
+        Add<br>Contact
+      </button>
+    </div> 
 
-</main>
+    <div id="contactsList" class="row g-4 justify-content-center">
+      </div>
+
+  </div> <div class="modal fade" id="contactModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content" style="font-family: var(--hand-font);">
+        <div class="modal-header bg-warning border-bottom-0">
+          <h1 class="modal-title fs-3 fw-bold" id="modalTitle">Contact Info</h1>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body bg-light">
+          <form id="modalForm">
+            <input type="hidden" id="mId">
+            
+            <div class="mb-3">
+              <label for="mFirstName" class="form-label fw-bold">First Name</label>
+              <input type="text" class="form-control border-dark" id="mFirstName" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="mLastName" class="form-label fw-bold">Last Name</label>
+              <input type="text" class="form-control border-dark" id="mLastName" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="mEmail" class="form-label fw-bold">Email</label>
+              <input type="email" class="form-control border-dark" id="mEmail" required>
+            </div>
+            
+            <div class="mb-3">
+              <label for="mPhone" class="form-label fw-bold">Phone</label>
+              <input type="tel" class="form-control border-dark" id="mPhone" required>
+            </div>
+            
+            <div class="d-grid gap-2">
+              <button type="submit" class="btn btn-warning fw-bold text-dark border-dark">Save Sticky Note</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
